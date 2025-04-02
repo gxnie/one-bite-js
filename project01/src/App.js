@@ -1,5 +1,6 @@
 import TabBar from "./components/TabBar.js";
 import Content from "./components/Content.js";
+
 import { request } from "./components/api.js";
 
 export default function App($app) {
@@ -8,11 +9,11 @@ export default function App($app) {
     photos: [],
   };
 
-  // tab
-  const tabBar = new TabBar({
+  //tab
+  const tab = new TabBar({
     $app,
     initialState: "",
-    onclick: async (name) => {
+    onClick: async (name) => {
       this.setState({
         ...this.state,
         currentTab: name,
@@ -21,18 +22,14 @@ export default function App($app) {
     },
   });
 
-  // content
-  const content = new Content({
-    $app,
-    initialState: [],
-  });
+  //content
+  const content = new Content({ $app, initialState: [] });
 
+  //state
   this.setState = (newState) => {
     this.state = newState;
-    content.setState({
-      currentTab: this.state.currentTab,
-      photos: this.state.photos,
-    });
+    tab.setState(this.state.currentTab);
+    content.setState(this.state.photos);
   };
 
   const init = async () => {
@@ -42,8 +39,8 @@ export default function App($app) {
         ...this.state,
         photos: initialPhotos,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 

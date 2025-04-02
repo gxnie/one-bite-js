@@ -1,9 +1,9 @@
 const API_URL = "https://animal-api-two.vercel.app/";
 
-// API 호출
+//API
 export const request = async (name) => {
-  let res = await fetch(name ? `${API_URL}${name}` : API_URL);
   try {
+    let res = await fetch(name ? `${API_URL}${name}` : API_URL);
     if (res) {
       let data = await res.json();
       return data.photos;
