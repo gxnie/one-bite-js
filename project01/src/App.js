@@ -1,6 +1,5 @@
 import TabBar from "./components/TabBar.js";
 import Content from "./components/Content.js";
-
 import { request } from "./components/api.js";
 
 export default function App($app) {
@@ -9,20 +8,17 @@ export default function App($app) {
     photos: [],
   };
 
-  //tab
   const tab = new TabBar({
     $app,
-    initialState: "",
+    initialState: this.state.currentTab,
     onClick: async (name) => {
-      history.pushState(null, `${name} 사진`, name);
+      history.pushState(null, null, `/${name}`); // URL 변경
       this.updateContent(name);
     },
   });
 
-  //content
   const content = new Content({ $app, initialState: [] });
 
-  //state
   this.setState = (newState) => {
     this.state = newState;
     tab.setState(this.state.currentTab);
@@ -30,20 +26,18 @@ export default function App($app) {
   };
 
   this.updateContent = async (tabName) => {
-    try {
-      const currentTab = tabName === "all" ? "" : tabName;
-      const photos = await request(currentTab);
-      this.setState({
-        ...this.state,
-        currentTab: tabName,
-        photos: photos,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(tabName);
+    const name = tabName === "all" ? "" : tabName;
+
+    const photos = await request(name);
+    this.setState({
+      ...this.state,
+      currentTab: tabName,
+      photos: photos,
+    });
   };
 
-  window.addEventListener("popstate", async () => {
+  window.addEventListener("popstate", () => {
     this.updateContent(window.location.pathname.replace("/", "") || "all");
   });
 
