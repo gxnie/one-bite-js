@@ -21,10 +21,8 @@ select.id = "skills";
 // 단순하게 하드 코딩했을 때 예시
 // option이라는 element?요소? 태그를 새로 만들어준다
 let newOption = document.createElement("option");
-
 // 그 요소에 text로 javascript를 추가해준다.
 newOption.textContent = "Javascript";
-
 // value값을 넣어준다.
 newOption.value = "javascript";
 
